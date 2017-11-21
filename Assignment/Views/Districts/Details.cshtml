@@ -1,0 +1,133 @@
+﻿@model Assignment.ViewModels.DistrictVM
+
+@{
+    ViewBag.Title = "District Details";
+}
+
+<h2>District Details</h2>
+@Html.ActionLink("Back to List", "Index")
+
+<div>
+    <h4>Shops</h4>
+
+    @if (Model.Shops.Count == 0)
+    {
+        <p>no shops</p>
+    }
+    else
+    {
+        <table class="table">
+            <tr>
+                <th></th>
+                <th>
+                    @Html.DisplayName("Shop Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Business ID")
+                </th>
+            </tr>
+
+            @foreach (var item in Model.Shops)
+            {
+                <tr>
+                    <th></th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BusinessId)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+<div>
+    <h4>Sellers</h4>
+
+    @if (Model.PrimarySeller == null && Model.SecondarySellers.Count == 0)
+    {
+        <p>no sellers</p>
+    }
+    else
+    {
+        <table class="table">
+            <tr>
+                <th>
+                </th>
+                <th>
+                    @Html.DisplayName("Primary Seller")
+                </th>
+                <th>
+                    @Html.DisplayName("Seller ID")
+                </th>
+                <th>
+                    @Html.DisplayName("Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Email")
+                </th>
+                <th>
+                    @Html.DisplayName("Mobile")
+                </th>
+            </tr>
+
+            @if (Model.PrimarySeller != null)
+            {
+                <tr>
+                    <td></td>
+                    <td>
+                        @Html.CheckBox("Is Primary", true, new { @disabled = "disabled" })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.PrimarySeller.SellerNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.PrimarySeller.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.PrimarySeller.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.PrimarySeller.MobileNumberWithCountryCode)
+                    </td>
+                </tr>
+            }
+
+            @foreach (var item in Model.SecondarySellers)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink("Remove", "RemoveSeller",
+                                     new { districtId = Model.DistrictId, sellerId = item.Id })
+                    </td>
+                    <td>
+                        @Html.CheckBox("Is Primary", false, new { @disabled = "disabled" })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SellerNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MobileNumberWithCountryCode)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+<p>
+    @Html.ActionLink("Add Seller", "AddSeller",
+                                    new { id = Model.DistrictId }, new { @class = "btn btn-primary btn-lg" })
+    @if (Model.PrimarySeller != null && Model.SecondarySellers.Count != 0)
+    {
+        @Html.ActionLink("Change Primary", "ChangePrimarySeller",
+                                    new { id = Model.DistrictId }, new { @class = "btn btn-primary btn-lg" })
+    }
+
+</p>

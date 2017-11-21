@@ -1,0 +1,49 @@
+﻿@model Assignment.ViewModels.ChangePrimaryVM
+
+@{
+    ViewBag.Title = "Change Primary Seller";
+}
+
+<h2>Change Primary Seller</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.DistrictId)
+
+    <div class="form-horizontal">
+        <h4>Change Primary Seller</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.DistrictId)
+
+        @if (Model.Sellers.Count() != 0)
+        {
+            <div class="form-group">
+                @Html.Label("Seller ", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.SellerId, new SelectList(Model.Sellers, "Id", "FullName"))
+                    @Html.ValidationMessageFor(model => model.SellerId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-primary btn-lg" />
+                </div>
+            </div>
+        }
+        else
+        {
+            <p>No secondary sellers assigned to this district. Add them first.</p>
+        }
+
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index", null, null, new { href = Request.UrlReferrer })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

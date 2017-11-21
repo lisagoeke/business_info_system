@@ -1,0 +1,49 @@
+﻿@model Assignment.ViewModels.RemoveSellerVM
+
+@{
+    ViewBag.Title = "Remove Seller";
+}
+
+<h2>Remove Seller</h2>
+@Html.ActionLink("Back to List", "Index", null, null, new { href = Request.UrlReferrer })
+
+<h3>Are you sure you want to remove the seller from the district?</h3>
+<div>
+    <h4>Seller Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Seller.SellerNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Seller.SellerNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Seller.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Seller.FullName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.DistrictId)
+        @Html.HiddenFor(model => model.SellerId)
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-primary btn-lg" />
+        </div>
+    }
+</div>
+
+
+
+
+
+
